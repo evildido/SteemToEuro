@@ -53,15 +53,12 @@
 
 <script>
 $(document).ready(function() {
-
-
 	$.get('https://api.coinmarketcap.com/v1/ticker/steem/', function(data) {
 		sessionStorage.setItem("steem_price",data[0].price_usd);
 	})  
   	.fail(function() {
 		alert( "CoinMarketCap not reachable : cannot get Steem price" );
 	});
-
 	$.get('https://api.fixer.io/latest?base=usd', function(data) {
 		sessionStorage.setItem("USD_price",data.rates['EUR']);
 	})
@@ -75,11 +72,10 @@ $("#steem").on("keyup", function() {
 	$("#euro").val(Number(this.value * steem_eur).toFixed(2));
 	
 	
-
 });
 $("#euro").on("keyup", function() {
-	var sbd_eur = sessionStorage.getItem("sbd_price") * sessionStorage.getItem("USD_price")
-	$("#steem").val(Number(this.value / sbd_eur).toFixed(2));
+	var sbd_eur = sessionStorage.getItem("steem_price") * sessionStorage.getItem("USD_price")
+	$("#steem").val(Number(this.value / steem_price).toFixed(2));
 });
     </script>
 </body>
