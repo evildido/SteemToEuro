@@ -74,8 +74,8 @@ $("#steem").on("keyup", function() {
 	
 });
 $("#euro").on("keyup", function() {
-	var sbd_eur = sessionStorage.getItem("steem_price") * sessionStorage.getItem("USD_price")
-	$("#steem").val(Number(this.value / steem_price).toFixed(2));
+	var steem_eur = sessionStorage.getItem("steem_price") * sessionStorage.getItem("USD_price")
+	$("#steem").val(Number(this.value / steem_eur).toFixed(2));
 });
     </script>
 </body>
