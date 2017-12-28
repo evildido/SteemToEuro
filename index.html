@@ -29,6 +29,19 @@
 		</div>
 		<div class="five wide column"></div>
 	</div>
+	<div class="row">
+		<div class="five wide column"></div>
+		<div class="two wide column">
+			<h3>Steem Dollar</h3>
+			<div class="ui input" >
+				<input placeholder="Steem Dollar" type="text" id="sbd">
+			</div>
+		</div>
+		<div class="two wide column" align="center"></div>
+		<div class="two wide column">
+		</div>
+		<div class="five wide column"></div>
+	</div>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	<div class="row">
 	<div class="five wide column"></div>
@@ -60,6 +73,12 @@ $(document).ready(function() {
   	.fail(function() {
 		alert( "CoinMarketCap not reachable : cannot get Steem price" );
 	});
+	$.get('https://api.coinmarketcap.com/v1/ticker/steem-dollars/', function(data) {
+		sessionStorage.setItem("sbd_price",data[0].price_usd);
+	})  
+  	.fail(function() {
+		alert( "CoinMarketCap not reachable : cannot get Steem price" );
+	});
 	$.get('https://api.fixer.io/latest?base=usd', function(data) {
 		sessionStorage.setItem("USD_price",data.rates['EUR']);
 	})
@@ -69,14 +88,30 @@ $(document).ready(function() {
 	
 });
 $("#steem").on("keyup", function() {
-	var steem_eur = sessionStorage.getItem("steem_price") * sessionStorage.getItem("USD_price")
-	$("#euro").val(Number(this.value * steem_eur).toFixed(2));
+	var steem_price_eur = sessionStorage.getItem("steem_price") * sessionStorage.getItem("USD_price")
+	$("#euro").val(Number(this.value * steem_price_eur).toFixed(2));
 	
-	
+
+	var sbd_price_eur = sessionStorage.getItem("sbd_price") * sessionStorage.getItem("USD_price")
+	var sbd = this.value * steem_price_eur / sbd_price_eur
+	$("#sbd").val(Number(sbd).toFixed(2));
 });
+$("#sbd").on("keyup", function() {
+	var sbd_price_eur = sessionStorage.getItem("sbd_price") * sessionStorage.getItem("USD_price")
+	$("#euro").val(Number(this.value * sbd_price_eur).toFixed(2));
+	
+	var steem_price_eur = sessionStorage.getItem("steem_price") * sessionStorage.getItem("USD_price")
+	var steem = this.value * sbd_price_eur / steem_price_eur
+	$("#steem").val(Number(steem).toFixed(2));
+});
+
+
 $("#euro").on("keyup", function() {
-	var steem_eur = sessionStorage.getItem("steem_price") * sessionStorage.getItem("USD_price")
-	$("#steem").val(Number(this.value / steem_eur).toFixed(2));
+	var steem_price_eur = sessionStorage.getItem("steem_price") * sessionStorage.getItem("USD_price")
+	$("#steem").val(Number(this.value / steem_price_eur).toFixed(2));
+
+	var sbd_price_eur = sessionStorage.getItem("sbd_price") * sessionStorage.getItem("USD_price")
+	$("#sbd").val(Number(this.value / sbd_price_eur).toFixed(2));
 });
     </script>
 </body>
