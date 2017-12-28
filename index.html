@@ -21,7 +21,7 @@
 				<input placeholder="Steem" type="text" id="steem">
 			</div>
 </div>
-<div class="two wide column" align="center"><br><i class="huge resize horizontal icon"></i></div>
+<div class="two wide column" align="center"><br><i class="big resize horizontal icon"></i></div>
 <div class="two wide column">
 			<h3>Euro</h3> 
 			<div class="ui input" >
@@ -54,32 +54,32 @@
 <script>
 $(document).ready(function() {
 
+
 	$.get('https://api.coinmarketcap.com/v1/ticker/steem/', function(data) {
-		sessionStorage.setItem("sbd_price",data[0].price_usd);
-   
+		sessionStorage.setItem("steem_price",data[0].price_usd);
+	})  
+  	.fail(function() {
+		alert( "CoinMarketCap not reachable : cannot get Steem price" );
 	});
 
 	$.get('https://api.fixer.io/latest?base=usd', function(data) {
 		sessionStorage.setItem("USD_price",data.rates['EUR']);
-   		console.log(data.rates['EUR']);
+	})
+	  .fail(function() {
+		alert( "Fixo.io not reachable : cannot get Steem price" );
 	});
-
 	
 });
-
-
-
 $("#steem").on("keyup", function() {
-	var sbd_eur = sessionStorage.getItem("sbd_price") * sessionStorage.getItem("USD_price")
-	$("#euro").val(Number(this.value * sbd_eur).toFixed(2));
-
+	var steem_eur = sessionStorage.getItem("steem_price") * sessionStorage.getItem("USD_price")
+	$("#euro").val(Number(this.value * steem_eur).toFixed(2));
+	
+	
 
 });
 $("#euro").on("keyup", function() {
 	var sbd_eur = sessionStorage.getItem("sbd_price") * sessionStorage.getItem("USD_price")
 	$("#steem").val(Number(this.value / sbd_eur).toFixed(2));
-
-
 });
     </script>
 </body>
