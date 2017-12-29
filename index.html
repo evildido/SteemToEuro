@@ -15,7 +15,7 @@
 	<div class="row">
 		<div class="five wide column"></div>
 		<div class="two wide column">
-			<h3>Steem</h3>
+			<div style="font-size: large"><b>Steem : </b><div style="font-size: small">(Price : <span class="steem_price"></span> USD)</div></div>
 			<div class="ui input" >
 				<input placeholder="Steem" type="text" id="steem">
 			</div>
@@ -32,7 +32,7 @@
 	<div class="row">
 		<div class="five wide column"></div>
 		<div class="two wide column">
-			<h3>Steem Dollar</h3>
+			<div style="font-size: large"><b>Steem Dollar</b><div style="font-size: small">(Price : <span class="sbd_price"></span> USD)</div></div>
 			<div class="ui input" >
 				<input placeholder="Steem Dollar" type="text" id="sbd">
 			</div>
@@ -85,13 +85,38 @@ $(document).ready(function() {
 	  .fail(function() {
 		alert( "Fixo.io not reachable : cannot get Steem price" );
 	});
-	
+setInterval(function(){
+	$.get('https://api.coinmarketcap.com/v1/ticker/steem/', function(data) {
+		sessionStorage.setItem("steem_price",data[0].price_usd);
+	})  
+  	.fail(function() {
+		alert( "CoinMarketCap not reachable : cannot get Steem price" );
+	});
+	$.get('https://api.coinmarketcap.com/v1/ticker/steem-dollars/', function(data) {
+		sessionStorage.setItem("sbd_price",data[0].price_usd);
+	})  
+  	.fail(function() {
+		alert( "CoinMarketCap not reachable : cannot get Steem price" );
+	});
+	$.get('https://api.fixer.io/latest?base=usd', function(data) {
+		sessionStorage.setItem("USD_price",data.rates['EUR']);
+	})
+	  .fail(function() {
+		alert( "Fixo.io not reachable : cannot get Steem price" );
+	});
+	$(".steem_price").html(Number(sessionStorage.getItem("steem_price")).toFixed(2));
+	$(".sbd_price").html(Number(sessionStorage.getItem("sbd_price")).toFixed(2));
+	console.log("Steem Price : " + Number(sessionStorage.getItem("steem_price")).toFixed(2));
+	console.log("SBD Price : " + Number(sessionStorage.getItem("sbd_price")).toFixed(2));
+}, 60000);
 });
+
+$(".steem_price").html(Number(sessionStorage.getItem("steem_price")).toFixed(2));
+$(".sbd_price").html(Number(sessionStorage.getItem("sbd_price")).toFixed(2));
 $("#steem").on("keyup", function() {
 	var steem_price_eur = sessionStorage.getItem("steem_price") * sessionStorage.getItem("USD_price")
 	$("#euro").val(Number(this.value * steem_price_eur).toFixed(2));
 	
-
 	var sbd_price_eur = sessionStorage.getItem("sbd_price") * sessionStorage.getItem("USD_price")
 	var sbd = this.value * steem_price_eur / sbd_price_eur
 	$("#sbd").val(Number(sbd).toFixed(2));
@@ -104,15 +129,14 @@ $("#sbd").on("keyup", function() {
 	var steem = this.value * sbd_price_eur / steem_price_eur
 	$("#steem").val(Number(steem).toFixed(2));
 });
-
-
 $("#euro").on("keyup", function() {
 	var steem_price_eur = sessionStorage.getItem("steem_price") * sessionStorage.getItem("USD_price")
 	$("#steem").val(Number(this.value / steem_price_eur).toFixed(2));
-
 	var sbd_price_eur = sessionStorage.getItem("sbd_price") * sessionStorage.getItem("USD_price")
 	$("#sbd").val(Number(this.value / sbd_price_eur).toFixed(2));
 });
+
+
     </script>
 </body>
 
