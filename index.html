@@ -81,7 +81,7 @@ $(document).ready(function() {
   	.fail(function() {
 		alert( "CoinMarketCap not reachable : cannot get Steem price" );
 	});
-	$.get('http://free.currencyconverterapi.com/api/v5/convert?q=USD_EUR&compact=y', function(data) {
+	$.get('https://free.currencyconverterapi.com/api/v5/convert?q=USD_EUR&compact=y', function(data) {
 		sessionStorage.setItem("USD_price",data.USD_EUR.val);
 	}).fail(function() {
 		alert( "currencyconverterapi not reachable : cannot get Steem price" );
@@ -101,7 +101,7 @@ setInterval(function(){
   	.fail(function() {
 		alert( "CoinMarketCap not reachable : cannot get Steem price" );
 	});
-	$.get('http://free.currencyconverterapi.com/api/v5/convert?q=USD_EUR&compact=y', function(data) {
+	$.get('https://free.currencyconverterapi.com/api/v5/convert?q=USD_EUR&compact=y', function(data) {
 		sessionStorage.setItem("USD_price",data.USD_EUR.val);
 	}).fail(function() {
 		alert( "currencyconverterapi not reachable : cannot get Steem price" );
