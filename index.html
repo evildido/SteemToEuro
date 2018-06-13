@@ -81,12 +81,12 @@ $(document).ready(function() {
   	.fail(function() {
 		alert( "CoinMarketCap not reachable : cannot get Steem price" );
 	});
-	$.get('https://api.fixer.io/latest?base=usd', function(data) {
-		sessionStorage.setItem("USD_price",data.rates['EUR']);
-	})
-	  .fail(function() {
-		alert( "Fixo.io not reachable : cannot get Steem price" );
+	$.get('http://free.currencyconverterapi.com/api/v5/convert?q=USD_EUR&compact=y', function(data) {
+		sessionStorage.setItem("USD_price",data.USD_EUR.val);
+	}).fail(function() {
+		alert( "currencyconverterapi not reachable : cannot get Steem price" );
 	});
+
 	
 setInterval(function(){
 	$.get('https://api.coinmarketcap.com/v1/ticker/steem/', function(data) {
@@ -101,11 +101,10 @@ setInterval(function(){
   	.fail(function() {
 		alert( "CoinMarketCap not reachable : cannot get Steem price" );
 	});
-	$.get('https://api.fixer.io/latest?base=usd', function(data) {
-		sessionStorage.setItem("USD_price",data.rates['EUR']);
-	})
-	  .fail(function() {
-		alert( "Fixo.io not reachable : cannot get Steem price" );
+	$.get('http://free.currencyconverterapi.com/api/v5/convert?q=USD_EUR&compact=y', function(data) {
+		sessionStorage.setItem("USD_price",data.USD_EUR.val);
+	}).fail(function() {
+		alert( "currencyconverterapi not reachable : cannot get Steem price" );
 	});
 	$(".steem_price").html(Number(sessionStorage.getItem("steem_price")).toFixed(2));
 	$(".sbd_price").html(Number(sessionStorage.getItem("sbd_price")).toFixed(2));
